@@ -18,77 +18,63 @@ import com.distribuida.entities.Pedidos;
 @Controller
 @RequestMapping("/pedidos")
 public class PedidosController {
-	
-	@Autowired
-	private PedidosDAO pedidosDAO;
-	
-	@GetMapping("/findAll")
-	public String findAll (Model model) {
-		List<Pedidos> pedidos = pedidosDAO.findALL();
-		model.addAttribute("pedidos", pedidos);
-		return "pedidos-listar";
-	}
-	
-	@GetMapping("/findOne")
-	public String findOne(@RequestParam("idPedidos")@Nullable Integer idPedidos
-			             ,@RequestParam("opcion")@Nullable Integer opcion
-			             ,Model model) {
-		if(idPedidos != null){
-			Pedidos pedidos = pedidosDAO.findOne(idPedidos);
-			model.addAttribute("pedidos", pedidos);
-		}
-		
-		if(opcion == 1) return "pedidos-add";
-		else return "del-pedidos";
-	}
-	
-	
-	@PostMapping("/add")
-	public String add(@RequestParam("idPedidos")@Nullable Integer idPedidos
-					 ,@RequestParam("FechaPedido")@Nullable Date FechaPedido
-					 ,@RequestParam("IdProveedor")@Nullable Integer IdProveedor
-					 ,@RequestParam("IdSucursal")@Nullable Integer IdSucursal
-					 ,@RequestParam("IdCliente")@Nullable Integer IdCliente
-					 ,@RequestParam("Total")@Nullable Double Total
-					 ,Model model) {
-		if(idPedidos == null) {
-			Pedidos pedidos = new Pedidos(0, FechaPedido, IdProveedor, IdSucursal, IdCliente, Total);
-			pedidosDAO.add(pedidos);
-		}else {
-			Pedidos pedidos = new Pedidos(idPedidos, FechaPedido, IdProveedor, IdSucursal, IdCliente, Total);
-			pedidosDAO.up(pedidos);
-		}
-		return "redirect:/pedidos/findAll";
-	}
-	
-	@GetMapping("/del")
-	public String del(@RequestParam("idPedidos")@Nullable Integer idPedidos) {
-		pedidosDAO.del(idPedidos);
-		return "redirect:/pedidos/findAll";
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+    @Autowired
+    private PedidosDAO pedidosDAO;
+
+    @GetMapping("/findAll")
+    public String findAll(Model model) {
+        List<Pedidos> pedidos = pedidosDAO.findALL();
+        model.addAttribute("pedidos", pedidos);
+        return "pedidos-listar";
+    }
+
+    @GetMapping("/findOne")
+    public String findOne(@RequestParam("idPedidos") @Nullable Integer idPedidos,
+                          @RequestParam("opcion") @Nullable Integer opcion,
+                          Model model) {
+        if (idPedidos != null) {
+            Pedidos pedidos = pedidosDAO.findOne(idPedidos);
+            model.addAttribute("pedidos", pedidos);
+        }
+        if (opcion != null && opcion == 1) {
+            return "pedidos-add";
+        } else {
+            return "del-pedidos";
+        }
+    }
+
+    @PostMapping("/add")
+    public String add(@RequestParam(value = "idPedidos", required = false) Integer idPedidos,
+                      @RequestParam(value = "FechaPedido", required = false) Date FechaPedido,
+                      @RequestParam(value = "IdProveedor", required = false) Integer IdProveedor,
+                      @RequestParam(value = "IdSucursal", required = false) Integer IdSucursal,
+                      @RequestParam(value = "IdCliente", required = false) Integer IdCliente,
+                      @RequestParam(value = "Total", required = false) Double Total,
+                      Model model) {
+    	
+    	 if (FechaPedido == null || IdProveedor == null || IdSucursal == null || IdCliente == null || Total == null ) {
+             model.addAttribute("error", "Todos los campos deben ser completos.");
+             return "pedidos-add";
+         }
+
+        Pedidos pedidos;
+        if (idPedidos == null) {
+            pedidos = new Pedidos(0, FechaPedido, IdProveedor, IdSucursal, IdCliente, Total);
+        } else {
+            pedidos = new Pedidos(idPedidos, FechaPedido, IdProveedor, IdSucursal, IdCliente, Total);
+        }
+        
+        pedidosDAO.add(pedidos);
+
+        return "redirect:/pedidos/findAll";
+    }
+
+    @GetMapping("/del")
+    public String del(@RequestParam("idPedidos") @Nullable Integer idPedidos) {
+        if (idPedidos != null) {
+            pedidosDAO.del(idPedidos);
+        }
+        return "redirect:/pedidos/findAll";
+    }
 }

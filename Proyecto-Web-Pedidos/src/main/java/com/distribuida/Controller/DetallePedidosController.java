@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.distribuida.DAO.DetallePedidosDAO;
 import com.distribuida.entities.DetallePedidos;
 
+@Controller
+@RequestMapping("/detallepedidos")
 public class DetallePedidosController {
 	
 	@Autowired
@@ -21,15 +25,15 @@ public class DetallePedidosController {
 	public String findAll(Model model) {
 		List<DetallePedidos> detallePedidos = detallePedidosDAO.findAll();
 		model.addAttribute("detallePedidos", detallePedidos);
-		return "etallePedidos-listar";
+		return "detallePedidos-listar";
 	}
 	
 	@GetMapping("/findOne")
-	public String findOne(@RequestParam("idDetalleDedidos")@Nullable Integer idDetalleDedidos
+	public String findOne(@RequestParam("idDetallePedidos")@Nullable Integer idDetallePedidos
 			             ,@RequestParam("opcion")@Nullable Integer opcion
 			             ,Model model) {
-		if(idDetalleDedidos != null) {
-			DetallePedidos detallePedidos = detallePedidosDAO.findOne(idDetalleDedidos);
+		if(idDetallePedidos != null) {
+			DetallePedidos detallePedidos = detallePedidosDAO.findOne(idDetallePedidos);
 			model.addAttribute("detallePedidos", detallePedidos);
 		}
 		if(opcion == 1) return "detallepedidos-add";
@@ -38,26 +42,43 @@ public class DetallePedidosController {
 	
 	
 	@PostMapping("/add")
-	public String add(@RequestParam("idDetalleDedidos")@Nullable Integer idDetalleDedidos
-			         ,@RequestParam("IdPedido")@Nullable Integer IdPedido
-			         ,@RequestParam("IdProducto")@Nullable Integer IdProducto
-			         ,@RequestParam("Cantidad")@Nullable Integer Cantidad
-			         ,@RequestParam("PrecioUnitario")@Nullable Double PrecioUnitario) {
-		if(idDetalleDedidos == null) {
-			DetallePedidos detallePedidos = new DetallePedidos(0, IdPedido, IdProducto, Cantidad, PrecioUnitario);
-			detallePedidosDAO.add(detallePedidos);
-		}else {
-			DetallePedidos detallePedidos = new DetallePedidos(idDetalleDedidos, IdPedido, IdProducto, Cantidad, PrecioUnitario);
-			detallePedidosDAO.UP(detallePedidos);
-		}
-		return "redirect:/detallepedidos/findAll";
+	public String add(@RequestParam(value = "idDetallePedidos", required = false) Integer idDetallePedidos,
+	                  @RequestParam(value = "idpedido", required = false) Integer idPedido,
+	                  @RequestParam(value = "idProducto", required = false) Integer idProducto,
+	                  @RequestParam(value = "cantidad", required = false) Integer cantidad,
+	                  @RequestParam(value = "precioUnitario", required = false) Double precioUnitario,
+	                  Model model) {
+
+	    // Verificar que los parámetros no sean nulos
+	    if (idPedido == null || idProducto == null || cantidad == null || precioUnitario == null) {
+	        // Manejo de error: los datos del formulario no son válidos
+	        model.addAttribute("error", "Todos los campos deben ser completos.");
+	        return "detallepedidos-add"; // Volver al formulario con un mensaje de error
+	    }
+
+	    DetallePedidos detallePedidos;
+
+	    if (idDetallePedidos == null) {
+	        // Crear un nuevo objeto DetallePedidos
+	        detallePedidos = new DetallePedidos(0, idPedido, idProducto, cantidad, precioUnitario);
+	    } else {
+	        // Actualizar el objeto existente
+	        detallePedidos = new DetallePedidos(idDetallePedidos, idPedido, idProducto, cantidad, precioUnitario);
+	    }
+
+	    // Guardar o actualizar el detallePedidos
+	    detallePedidosDAO.add(detallePedidos);
+
+	    return "redirect:/detallepedidos/findAll";
 	}
+
 	
 	@GetMapping("/del")
-	public String del(@RequestParam("idDetalleDedidos")@Nullable Integer idDetalleDedidos) {
-		detallePedidosDAO.del(idDetalleDedidos);
-		return "redirect:/detallepedidos/findAll";
+	public String del(@RequestParam("idDetallePedidos") @Nullable Integer idDetallePedidos) {
+	    detallePedidosDAO.del(idDetallePedidos);
+	    return "redirect:/detallepedidos/findAll";
 	}
+
 	
 	
 	

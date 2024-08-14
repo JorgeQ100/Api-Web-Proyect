@@ -34,7 +34,7 @@
 					<td>${items.total}</td>
 
 					<td>
-						<button>
+						<button onclick="window.location.href='/Proyecto-Web-Pedidos/pedidos/findOne?idPedidos=${items.idPedidos}&opcion=1'; return false;">
 							Actualizar
 						</button>
 						<button>
