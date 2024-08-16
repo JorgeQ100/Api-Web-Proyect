@@ -25,6 +25,7 @@
 		<input type="text" id="precioUnitario"  name="precioUnitario" value="${detallePedidos.precioUnitario}"/>
 		<br>	
 		<button type="submit"">Guardar</button>	
+		<button onclick="window.location.href=/Proyecto-Web-Pedidos/detallepedidos/findAll'; return false;">Cancelar</button>
 	</form>
 	
 </body>

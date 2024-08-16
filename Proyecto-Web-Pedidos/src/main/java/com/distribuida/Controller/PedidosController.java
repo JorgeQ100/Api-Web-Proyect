@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,12 +46,12 @@ public class PedidosController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestParam(value = "idPedidos", required = false) Integer idPedidos,
-                      @RequestParam(value = "FechaPedido", required = false) Date FechaPedido,
-                      @RequestParam(value = "IdProveedor", required = false) Integer IdProveedor,
-                      @RequestParam(value = "IdSucursal", required = false) Integer IdSucursal,
-                      @RequestParam(value = "IdCliente", required = false) Integer IdCliente,
-                      @RequestParam(value = "Total", required = false) Double Total,
+    public String add(@RequestParam("idPedidos")@Nullable Integer idPedidos,
+                      @RequestParam("FechaPedido")@Nullable @DateTimeFormat(pattern = "yyyy-MM-dd") Date FechaPedido,
+                      @RequestParam("IdProveedor")@Nullable Integer IdProveedor,
+                      @RequestParam("IdSucursal")@Nullable Integer IdSucursal,
+                      @RequestParam("IdCliente")@Nullable Integer IdCliente,
+                      @RequestParam("Total")@Nullable Double Total,
                       Model model) {
     	
     	 if (FechaPedido == null || IdProveedor == null || IdSucursal == null || IdCliente == null || Total == null ) {

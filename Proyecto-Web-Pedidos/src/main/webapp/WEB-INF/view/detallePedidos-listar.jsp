@@ -12,6 +12,10 @@
 <body>
 	 <h1>DetallePedidos</h1>
 	 
+	 <button onclick="window.location.href='/Proyecto-Web-Pedidos/detallepedidos/findOne?idDetallePedidos=${items.idDetallePedidos}&opcion=1'; return false">
+			Agregar
+	</button>
+	 
 	 <table>
 	 	<thead>
 	 		<tr>
@@ -35,7 +39,7 @@
 	 					<button onclick="window.location.href='/Proyecto-Web-Pedidos/detallepedidos/findOne?idDetallePedidos=${items.idDetallePedidos}&opcion=1'; return false">
 							Actualizar
 						</button>
-						<button>
+						<button onclick="window.location.href='/Proyecto-Web-Pedidos/detallepedidos/findOne?idDetallePedidos=${items.idDetallePedidos}&opcion=2'; return false">
 							Eliminar
 						</button>
 	 				</td>

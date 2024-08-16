@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,25 +11,25 @@
 
 	<h1>Actulizar pedidos</h1>
 	<form action="add" method="post">
-		<input type="hidden" id="id_pedidos" name="id_pedidos" value="${pedidos.idPedidos}"/>
+		<input type="hidden" id="idPedidos" name="idPedidos" value="${pedidos.idPedidos}"/>
 		<br/>
 		Fecha del Pedido
-		<input type="date" id="fechaPedido" name="fechaPedido" value="${pedidos.fechaPedido}"/>
+		<input type="date" id="FechaPedido" name="FechaPedido" value="${fn:substring(pedidos.fechaPedido,0,10)}"/>
 		<br/>
 		Provedor del Pedido
-		<input type="text" id="idProveedor" name="idProveedor" value="${pedidos.idProveedor}"/>
+		<input type="text" id="IdProveedor" name="IdProveedor" value="${pedidos.idProveedor}"/>
 		<br/>
 		Sucursalar del Pedido
-		<input type="text" id="idSucursal" name="idSucursal" value="${pedidos.idSucursal}"/>
+		<input type="text" id="IdSucursal" name="IdSucursal" value="${pedidos.idSucursal}"/>
 		<br/>
 		Cliente del pedido
-		<input type="text" id="idCliente" name="idCliente" value="${pedidos.idCliente}"/>
+		<input type="text" id="IdCliente" name="IdCliente" value="${pedidos.idCliente}"/>
 		<br/>
 		Total
-		<input type="text" id="total" name="total" value="${pedidos.total}"/>
+		<input type="text" id="Total" name="Total" value="${pedidos.total}"/>
 		
 		<button type="submit">Agregar</button>
-		
+		<button onclick="window.location.href=/Proyecto-Web-Pedidos/pedidos/findAll'; return false;">Cancelar</button>
 	</form>
 </body>
 </html>

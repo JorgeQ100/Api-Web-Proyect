@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "pedidos")
 public class Pedidos {
@@ -17,6 +19,7 @@ public class Pedidos {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_pedidos")
 	private int idPedidos;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "FechaPedido")
 	private Date FechaPedido;
 	@Column(name = "IdProveedor")

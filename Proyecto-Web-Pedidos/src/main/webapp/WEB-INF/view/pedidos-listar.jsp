@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,11 @@
 <body>
 
 	<h1>Pedidos</h1>
+	
+	<button onclick="window.location.href='/Proyecto-Web-Pedidos/pedidos/findOne?idPedidos=${items.idPedidos}&opcion=1'; return false;">
+		Agregar
+	</button>
+	
 	
 	<table>
 		<thead>
@@ -27,7 +33,7 @@
 			<c:forEach var="items" items="${pedidos}">
 				<tr>
 					<td>${items.idPedidos}</td>
-					<td>${items.fechaPedido}</td>
+					<td>${fn:substring(items.fechaPedido,0,10)}</td>
 					<td>${items.idProveedor}</td>
 					<td>${items.idSucursal}</td>
 					<td>${items.idCliente}</td>
@@ -37,7 +43,7 @@
 						<button onclick="window.location.href='/Proyecto-Web-Pedidos/pedidos/findOne?idPedidos=${items.idPedidos}&opcion=1'; return false;">
 							Actualizar
 						</button>
-						<button>
+						<button onclick="window.location.href='/Proyecto-Web-Pedidos/pedidos/findOne?idPedidos=${items.idPedidos}&opcion=2'; return false;">
 							Eliminar
 						</button>
 					</td>
